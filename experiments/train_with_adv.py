@@ -131,6 +131,11 @@ def train(arglist):
         num_adversaries = min(env.n, arglist.num_adversaries)
         adversaries = get_adversaries(env, obs_shape_n, arglist)
         print('There is {} adversaries'.format(str(len(adversaries))))
+        trainers = get_trainers(env, num_adversaries, obs_shape_n, arglist)
+        print('Using good policy {} and adv policy {}'.format(arglist.good_policy, arglist.adv_policy))
+        
+        # Initialize
+        U.initialize()
         
         #Load previous results for adversary
         variables = tf.contrib.framework.get_variables_to_restore()
@@ -139,12 +144,6 @@ def train(arglist):
         saver = tf.train.Saver(variables_to_restore)
         saver.restore(U.get_session(), arglist.adv_dir)
         
-        trainers = get_trainers(env, num_adversaries, obs_shape_n, arglist)
-        print('Using good policy {} and adv policy {}'.format(arglist.good_policy, arglist.adv_policy))
-
-        # Initialize
-        U.initialize()
-
         # Load previous results for agent
         variables_to_restore_nma = []
         for i in range(env.n):
