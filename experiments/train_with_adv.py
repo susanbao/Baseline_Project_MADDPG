@@ -120,7 +120,7 @@ def get_adversaries(env, obs_shape_n, arglist):
 def train(arglist):
     with U.single_threaded_session():
         #check parameter
-        if arglist.load_dir == "" or arglist.adv_dir == "":
+        if arglist.adv_dir == "":
             print("load_dir or adv_dir is empty!!!")
             return
         
@@ -145,12 +145,13 @@ def train(arglist):
         saver.restore(U.get_session(), arglist.adv_dir)
         
         # Load previous results for agent
-        variables_to_restore_nma = []
-        for i in range(env.n):
-            variables_to_restore_nma += tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=trainers[i].name)
-        #print(variables_to_restore_nma)
-        saver = tf.train.Saver(variables_to_restore_nma)
-        U.load_state(arglist.load_dir, saver)
+        if arglist.load_dir != '':
+            variables_to_restore_nma = []
+            for i in range(env.n):
+                variables_to_restore_nma += tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=trainers[i].name)
+            #print(variables_to_restore_nma)
+            saver = tf.train.Saver(variables_to_restore_nma)
+            U.load_state(arglist.load_dir, saver)
 
         episode_rewards = [0.0]  # sum of rewards for all agents
         agent_rewards = [[0.0] for _ in range(env.n)]  # individual agent reward
@@ -216,7 +217,7 @@ def train(arglist):
                 env.render()
                 continue
             
-            print("Error!!! Here can only execute benchmark test or display!!!")
+            #print("Error!!! Here can only execute benchmark test or display!!!")
             
             # update all trainers, if not in display or benchmark mode
             loss = None
