@@ -1,0 +1,10 @@
+2022-05-18 23:36:19.057556: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2022-05-18 23:36:19.161810: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
+name: Quadro RTX 6000 major: 7 minor: 5 memoryClockRate(GHz): 1.77
+pciBusID: 0000:01:00.0
+totalMemory: 23.65GiB freeMemory: 988.44MiB
+2022-05-18 23:36:19.161845: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2022-05-18 23:36:19.339491: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2022-05-18 23:36:19.339539: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2022-05-18 23:36:19.339544: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2022-05-18 23:36:19.339624: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 681 MB memory) -> physical GPU (device: 0, name: Quadro RTX 6000, pci bus id: 0000:01:00.0, compute capability: 7.5)

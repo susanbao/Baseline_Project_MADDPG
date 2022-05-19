@@ -1,0 +1,90 @@
+2022-05-18 23:15:50.467937: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2022-05-18 23:15:50.920088: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
+name: Quadro RTX 6000 major: 7 minor: 5 memoryClockRate(GHz): 1.77
+pciBusID: 0000:01:00.0
+totalMemory: 23.65GiB freeMemory: 23.43GiB
+2022-05-18 23:15:50.920135: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2022-05-18 23:15:51.117338: I tensorflow/core/common_runtime/gpu/gpu_device.cc:965] Device interconnect StreamExecutor with strength 1 edge matrix:
+2022-05-18 23:15:51.117391: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971]      0 
+2022-05-18 23:15:51.117396: I tensorflow/core/common_runtime/gpu/gpu_device.cc:984] 0:   N 
+2022-05-18 23:15:51.117486: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1097] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 22091 MB memory) -> physical GPU (device: 0, name: Quadro RTX 6000, pci bus id: 0000:01:00.0, compute capability: 7.5)
+2022-05-18 23:15:53.012117: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2022-05-18 23:15:53.013690: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2022-05-18 23:15:53.015214: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2022-05-18 23:15:53.018654: E tensorflow/stream_executor/cuda/cuda_blas.cc:459] failed to create cublas handle: CUBLAS_STATUS_NOT_INITIALIZED
+2022-05-18 23:15:53.018710: W tensorflow/stream_executor/stream.cc:2010] attempting to perform BLAS operation using StreamExecutor without BLAS support
+Traceback (most recent call last):
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/client/session.py", line 1278, in _do_call
+    return fn(*args)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/client/session.py", line 1263, in _run_fn
+    options, feed_dict, fetch_list, target_list, run_metadata)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/client/session.py", line 1350, in _call_tf_sessionrun
+    run_metadata)
+tensorflow.python.framework.errors_impl.InternalError: Blas GEMM launch failed : a.shape=(1, 21), b.shape=(21, 64), m=1, n=64, k=21
+	 [[Node: adversary_0_1/p_func/fully_connected/MatMul = MatMul[T=DT_FLOAT, transpose_a=false, transpose_b=false, _device="/job:localhost/replica:0/task:0/device:GPU:0"](_arg_observation0_0_0/_209, adversary_0/p_func/fully_connected/weights/read)]]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "train_with_adv.py", line 260, in <module>
+    train(arglist)
+  File "train_with_adv.py", line 170, in train
+    adv_action_n = [adv.action(obs) for adv, obs in zip(adversaries,obs_n)]
+  File "train_with_adv.py", line 170, in <listcomp>
+    adv_action_n = [adv.action(obs) for adv, obs in zip(adversaries,obs_n)]
+  File "../maddpg/trainer/marl.py", line 181, in action
+    return self.act(obs[None])[0]
+  File "../maddpg/common/tf_util.py", line 285, in <lambda>
+    return lambda *args, **kwargs: f(*args, **kwargs)[0]
+  File "../maddpg/common/tf_util.py", line 328, in __call__
+    results = get_session().run(self.outputs_update, feed_dict=feed_dict)[:-1]
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/client/session.py", line 877, in run
+    run_metadata_ptr)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/client/session.py", line 1100, in _run
+    feed_dict_tensor, options, run_metadata)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/client/session.py", line 1272, in _do_run
+    run_metadata)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/client/session.py", line 1291, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InternalError: Blas GEMM launch failed : a.shape=(1, 21), b.shape=(21, 64), m=1, n=64, k=21
+	 [[Node: adversary_0_1/p_func/fully_connected/MatMul = MatMul[T=DT_FLOAT, transpose_a=false, transpose_b=false, _device="/job:localhost/replica:0/task:0/device:GPU:0"](_arg_observation0_0_0/_209, adversary_0/p_func/fully_connected/weights/read)]]
+
+Caused by op 'adversary_0_1/p_func/fully_connected/MatMul', defined at:
+  File "train_with_adv.py", line 260, in <module>
+    train(arglist)
+  File "train_with_adv.py", line 132, in train
+    adversaries = get_adversaries(env, obs_shape_n, arglist)
+  File "train_with_adv.py", line 117, in get_adversaries
+    local_q_func=(arglist.noise_policy=='ddpg'), ADV=True))
+  File "../maddpg/trainer/marl.py", line 147, in __init__
+    obs_shape_n=obs_shape_n
+  File "../maddpg/trainer/marl.py", line 39, in p_train
+    p = p_func(p_input, int(act_pdtype_n[p_index].param_shape()[0]), scope="p_func", num_units=num_units)
+  File "train_with_adv.py", line 95, in mlp_model_adv
+    out = layers.fully_connected(out, num_outputs=num_units, activation_fn=tf.nn.relu)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/contrib/framework/python/ops/arg_scope.py", line 183, in func_with_args
+    return func(*args, **current_args)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/contrib/layers/python/layers/layers.py", line 1849, in fully_connected
+    outputs = layer.apply(inputs)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/keras/engine/base_layer.py", line 805, in apply
+    return self.__call__(inputs, *args, **kwargs)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/layers/base.py", line 362, in __call__
+    outputs = super(Layer, self).__call__(inputs, *args, **kwargs)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/keras/engine/base_layer.py", line 736, in __call__
+    outputs = self.call(inputs, *args, **kwargs)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/keras/layers/core.py", line 943, in call
+    outputs = gen_math_ops.mat_mul(inputs, self.kernel)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/ops/gen_math_ops.py", line 4456, in mat_mul
+    name=name)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/framework/op_def_library.py", line 787, in _apply_op_helper
+    op_def=op_def)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/util/deprecation.py", line 454, in new_func
+    return func(*args, **kwargs)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/framework/ops.py", line 3155, in create_op
+    op_def=op_def)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/framework/ops.py", line 1717, in __init__
+    self._traceback = tf_stack.extract_stack()
+
+InternalError (see above for traceback): Blas GEMM launch failed : a.shape=(1, 21), b.shape=(21, 64), m=1, n=64, k=21
+	 [[Node: adversary_0_1/p_func/fully_connected/MatMul = MatMul[T=DT_FLOAT, transpose_a=false, transpose_b=false, _device="/job:localhost/replica:0/task:0/device:GPU:0"](_arg_observation0_0_0/_209, adversary_0/p_func/fully_connected/weights/read)]]
+

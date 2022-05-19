@@ -1,0 +1,4 @@
+[Discrete(21), Discrete(21)]
+There is 2 adversaries
+Using good policy maddpg and adv policy maddpg
+Starting iterations...

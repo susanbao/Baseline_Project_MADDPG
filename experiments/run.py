@@ -19,7 +19,7 @@ def get_command(scenario_index = 8, exp_index = 0, cuda_index = 1, alg = "md"):
     opt1['scenario'] = scenario_list[scenario_index]
     opt1['num-adversaries'] = num_adv_list[scenario_index]
     opt1['save-dir'] = "models/s" + str(scenario_index) + "/" + exp_name + "/"
-    opt1['adv-dir'] = "../../MyAlgorithm/v3-rmaddpg-master/experiments/models/s" + str(scenario_index) + "/" + "ma_s" + str(scenario_index) + "_e01/"
+    opt1['adv-dir'] = "../../MyAlgorithm/v3-rmaddpg-master/experiments/models/s" + str(scenario_index) + "/" + "ma_s" + str(scenario_index) + "_" + str(exp_name_list[exp_index]) + "/"
     opt2 = dict()
     opt2['exp-name'] = exp_name + exp_path
     
@@ -34,28 +34,27 @@ def get_command(scenario_index = 8, exp_index = 0, cuda_index = 1, alg = "md"):
     
     return generate_command(opt1, opt2, cuda_index)
 
+def run_index(scenario_index, cuda_index, exp_index):
+    opt = get_command(scenario_index = scenario_index, exp_index = exp_index, cuda_index = cuda_index, alg = "md")
+    print(opt)
+    os.system(opt)
+    time.sleep(10) # sleep for 1h
+
 def run(scenario_index, cuda_index):
-    for exp_index in range(4):
-        opt = get_command(scenario_index = scenario_index, exp_index = exp_index, cuda_index = cuda_index, alg = "md")
-        print(opt)
-        os.system(opt)
-    #for start_time in range(5):
-    #    for exp_index, cuda_index in zip(range(start_time*4, start_time*4+4, 1), range(1,5,1)):
-    #        if exp_index < 20:
-    #            opt = get_command(scenario_index = scenario_index, exp_index = exp_index, cuda_index = cuda_index, alg = "m3")
-    #            print(opt)
-    #            os.system(opt)
-        print("------------------------sleep------------------------")
+    #run_index(scenario_index, cuda_index, 0)
+    #run_index(scenario_index, cuda_index, 1)
+    run_index(scenario_index, cuda_index, 2)
+    print("------------------------sleep------------------------")
     #    time.sleep(3600) # sleep for 1h
 #     will take 5 h
 # 24h can finish about 5 scenarios
 
 # take 5 * 8 = 40 hour
-run(scenario_index = 1, , cuda_index = 0)
+run(scenario_index = 1, cuda_index = 2)
 #run(scenario_index = 2)
-#run(scenario_index = 3)
-#run(scenario_index = 4)
+run(scenario_index = 3, cuda_index = 2)
+run(scenario_index = 4, cuda_index = 3)
 #run(scenario_index = 5)
 #run(scenario_index = 6)
-#run(scenario_index = 7)
+run(scenario_index = 7, cuda_index = 3)
 #run(scenario_index = 8)

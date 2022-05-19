@@ -1,0 +1,21 @@
+2022-05-18 23:31:19.487348: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: SSE4.1 SSE4.2 AVX AVX2 FMA
+2022-05-18 23:31:19.590173: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1405] Found device 0 with properties: 
+name: Quadro RTX 6000 major: 7 minor: 5 memoryClockRate(GHz): 1.77
+pciBusID: 0000:01:00.0
+totalMemory: 23.65GiB freeMemory: 15.44MiB
+2022-05-18 23:31:19.590209: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1484] Adding visible gpu devices: 0
+2022-05-18 23:31:19.617374: E tensorflow/core/common_runtime/direct_session.cc:158] Internal: CUDA runtime implicit initialization on GPU:0 failed. Status: out of memory
+Traceback (most recent call last):
+  File "train_with_adv.py", line 260, in <module>
+    train(arglist)
+  File "train_with_adv.py", line 121, in train
+    with U.single_threaded_session():
+  File "../maddpg/common/tf_util.py", line 171, in single_threaded_session
+    return make_session(1)
+  File "../maddpg/common/tf_util.py", line 166, in make_session
+    return tf.Session(config=tf_config)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/client/session.py", line 1494, in __init__
+    super(Session, self).__init__(target, graph, config=config)
+  File "/opt/anaconda/envs/hsh_maddpg/lib/python3.5/site-packages/tensorflow/python/client/session.py", line 626, in __init__
+    self._session = tf_session.TF_NewSession(self._graph._c_graph, opts)
+tensorflow.python.framework.errors_impl.InternalError: Failed to create session.
